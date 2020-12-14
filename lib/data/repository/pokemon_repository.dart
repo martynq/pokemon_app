@@ -1,26 +1,19 @@
-import 'dart:convert';
-import 'package:pokemon3_app/data/model/api_result_model.dart';
-import 'package:pokemon3_app/res/startings.dart';
+import 'package:pokemon_app/data/model/api_result_model.dart';
+import 'package:pokemon_app/data/repository/api_provider.dart';
 
-abstract class PokemonsRepository {
-  Future<List<Results>> getPokemons();
-}
+class PokemonRepository {
+  ApiProvider apiProvider = ApiProvider();
+  List <Results> pokemons =[];
+  int count = 0;
 
-class PokemonsRepositoryImpl implements PokemonsRepository {
-  get http => null;
-
-
-
-  @override
   Future<List<Results>> getPokemons() async {
-    var response = await http.get(AppStrings.PokemonUrl);
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      List<Results> results = Pokemons.fromJson(data).results;
-      return results;
-    } else {
-      throw Exception();
+    if (this.pokemons.isEmpty) {
+      this.pokemons.addAll(await apiProvider.fetchPokemons());
+      this.count = this.pokemons.lenght;
+      return pokemons;
     }
-  }
-
-}
+    this.pokemons.addAll(await apiProvider.fetchPokemons(offset:
+    this.count));
+    this.count = this.pokemons.length;
+    return pokemons;
+  }}
