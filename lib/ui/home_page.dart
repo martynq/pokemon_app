@@ -1,77 +1,85 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
-import 'package:pokemon3_app/bloc/PokemonsBloc.dart';
-import 'package:pokemon3_app/bloc/PokemonsEvent.dart';
-import 'package:pokemon3_app/bloc/PokemonsState.dart';
-import 'package:pokemon3_app/data/model/api_result_model.dart';
 
-
-class HomePage extends StatelessWidget {
-  PokemonsBloc pokeBloc;
-  bool scrollSwitch = true;
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    pokeBloc = BlocProvider.of<PokemonsBloc>(context);
-
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Poke App'),
-      ),
-      body: _body(context),
-    );
-  }
-  Widget _body(BuildContext context) {
-    return BlocBuilder<PokemonsBloc, PokemonsState>(
-      bloc: pokeBloc,
-      builder: (context, state) {
-        if (state is PokemonsInitialState) {
-          pokeBloc.add(PokemonsAdd());
-          return Center(child: CircularProgressIndicator());
-        }
-        if (state is PokemonsLoadedState) {
-          scrollSwitch = true;
-          return _list(state);
-        }
-        return Container();
-      },
-    );
-  }
-  Widget _list(PokemonsLoadedState state) {
-    final scrollController = ScrollController();
-    scrollController.addListener(() {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent - 200 &&
-          scrollSwitch == true) {
-        scrollSwitch = false;
-        pokeBloc.add(PokemonsAdd());
-      }
-    });
-    return ListView.builder(
-      itemCount: state.pokemons.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _listTile( , state.pokemons.length);
-      },
-    );
-  }
-  Widget _listTile(List<Type> pokemons, int index) {
-    return ListTile(
-      leading: Icon(Icons.arrow_right),
-      title: Text(pokemons[index]),
-      trailing: Image(
-        //  Map post;
-        //    final response = await http.get(url);
-      //var url = widget.data["url"];
-
-        // post = json.decode(response.body.toString());
-        //  Image.network(post['sprites']['front_default'])
-
-          image: NetworkImage(pokemons[index].url['sprites']['front_default']),
-      ),
-    );
-  }
-}
+//import 'dart:async';
+//import 'dart:convert';
+//
+////import 'package:basic_utils/basic_utils.dart';
+//import 'package:flutter/material.dart';
+//import "package:http/http.dart" as http;
+//
+//import 'detail_pokemon.dart.dart';
+//
+//class MyHomePage extends StatefulWidget {
+//  @override
+//  _MyHomePageState createState() => _MyHomePageState();
+//}
+//
+//class _MyHomePageState extends State<MyHomePage> {
+//  TextEditingController editingController = TextEditingController();
+//  String url = 'https://pokeapi.co/api/v2/pokemon/?limit=10';
+//  List data;
+//
+//  Future<String> makeRequest() async {
+//    var response = await http.get(
+//        Uri.encodeFull(url), headers: {"Accept": "application/json"});
+//
+//    setState(() {
+//      var extractData = json.decode(response.body);
+//      data = extractData["results"];
+//    });
+//  }
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    makeRequest();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: AppBar(
+//        title: Text('Pokemon List'),
+//      ),
+//      body: Container(
+//        child: Column(
+//          children: <Widget>[
+//            Padding(
+//              padding: const EdgeInsets.all(15.0),
+//              child: TextField(
+//                onChanged: (value) {},
+//                decoration: InputDecoration(
+//                  labelText: "Search",
+//                  hintText: "Search",
+//                  contentPadding: const EdgeInsets.all(10.0),
+//                  prefixIcon: Icon(Icons.search),
+//                  border: OutlineInputBorder(
+//                      borderRadius: BorderRadius.all(Radius.circular(6.0))),
+//                ),
+//              ),
+//            ),
+//            Expanded(
+//              child: ListView.builder(
+//                  itemCount: data == null ? 0 : data.length,
+//                  itemBuilder: (BuildContext context, i) {
+//                    return ListTile(
+//                      title: Text(data[i]["name"].toString().toUpperCase()),
+//                      subtitle: Text(data[i]["url"]),
+//                      //  leading:  CircleAvatar(
+//                      // backgroundImage:
+//                      //  NetworkImage(data[i]["picture"]["thumbnail"]),
+//                      //  ),
+//                      onTap: () {
+//                        Navigator.push(
+//                            context, MaterialPageRoute(builder: (
+//                            BuildContext context) => SecondPage(data[i])));
+//                      },
+//                    );
+//                  }),
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+//}
+//

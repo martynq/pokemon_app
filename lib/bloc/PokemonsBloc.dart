@@ -5,25 +5,29 @@ import 'package:pokemon3_app/bloc/PokemonsState.dart';
 import 'package:pokemon3_app/data/repository/pokemon_repository.dart';
 
 
-
 class PokemonsBloc extends Bloc<PokemonsEvent, PokemonsState> {
-  PokemonRepository pokemonRepository;
+ final AppService appService;
 
-  PokemonsBloc({@required this.pokemonRepository})
-      : assert(pokemonRepository != null);
-  @override
-  PokemonsState get initialState => PokemonsInitialState();
+  PokemonsBloc({@required this.appService});
+
+
+  PokemonsState get initialState => PokemonsLoadingState();
+
+
   @override
   Stream<PokemonsState> mapEventToState(
       PokemonsEvent event,
       ) async* {
     if (event is PokemonsAdd) {
       try {
-        final pokemons = await this.pokemonRepository.fetchPokemons();
-        yield (PokemonsLoadedState(pokemons: pokemons, amount: pokemons.length));
-      } catch (error) {
-        print(error);
+
+        List<Results> results = await appService.getPokemons();
+        yield PokemonsLoadedState(results: results);
+      } catch (e) {
+        yield PokemonErrorState(message: e.toString());
       }
     }
-  }
+ }
+
+
 }
