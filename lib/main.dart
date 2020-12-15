@@ -1,20 +1,43 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon3_app/bloc/PokemonsBloc.dart';
-import 'package:pokemon3_app/ui/home_page.dart';
 import 'package:pokemon3_app/data/repository/pokemon_repository.dart';
+import 'package:pokemon3_app/ui/second_page.dart';
+
+void main() async {
 
 
-void main() => runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.amber,
+      statusBarIconBrightness: Brightness.light,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pokemons',
+      title: 'Pokemons App',
       home: BlocProvider(
-        builder: (context) => PokemonsBloc(repository: PokemonsRepositoryImpl()),
-        child: HomePage(),
+        create: (context) {
+          return PokemonsBloc(appService: AppService());
+        },
+        child: ListPokemonPage(),
       ),
     );
   }

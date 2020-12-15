@@ -2,25 +2,35 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pokemon3_app/data/model/api_result_model.dart';
 
-abstract class PokemonsState extends Equatable {}
+abstract class PokemonsState extends Equatable {
+  const PokemonsState();
 
-class PokemonsInitialState extends PokemonsState {
   @override
   // TODO: implement props
   List<Object> get props => [];
 }
 
 class PokemonsLoadingState extends PokemonsState {
-  @override
-  // TODO: implement props
-  List<Object> get props => [];
+final List<Results> result = [];
 }
 
 class PokemonsLoadedState extends PokemonsState {
+  final List<Results> results;
+  final int amount;
 
-  List <Results> results;
+  PokemonsLoadedState({this.results, this.amount});
 
-  PokemonsLoadedState({@required this.results});
+  PokemonsLoadedState copyWith({
+  List<Results> results,
+    int amount,
+
+}) {
+    return PokemonsLoadedState(
+        results: results ?? this.results,
+    amount: amount ?? this.amount);
+
+  }
+
 
   @override
   // TODO: implement props

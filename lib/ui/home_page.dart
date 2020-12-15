@@ -1,87 +1,84 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon3_app/bloc/PokemonsBloc.dart';
-import 'package:pokemon3_app/bloc/PokemonsEvent.dart';
-import 'package:pokemon3_app/bloc/PokemonsState.dart';
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState(); {
-  }
-
-}
-
-
-class _HomePageState extends State<HomePage>{
-  PokemonsBloc pokemonsBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    pokemonsBloc = BlocProvider.of<PokemonsBloc>(context);
-    pokemonsBloc.add(FetchPokemonsEvent());
-  }
-
-
-@override
-Widget build(BuildContext context) {
-  return MaterialApp(
-    home: Builder(
-      builder: (context) {
-        return Material(
-          child: Scaffold(
-         appBar: AppBar(
-                title: Text("Pokemons"),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.refresh),
-                    onPressed: () {
-                      pokemonsBloc.add(FetchPokemonsEvent());
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.info),
-                    onPressed: () {
-                     navigateToAoutPage(context);
-                    },
-                  )
-                ],
-              ),
-              body: Container(
-                child: BlocListener<PokemonsBloc, PokemonsState>(
-                  listener: (context, state) {
-                    if (state is PokemonErrorState) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.message),
-                        ),
-                      );
-                    }
-                  },
-                     child: BlocBuilder<PokemonsBloc, PokemonsState>(
-                        builder: (context, state) {
-                           if (state is PokemonsInitialState) {
-                              return buildLoading();
-                              } else if (state is PokemonsLoadingState) {
-                                return buildLoading();
-                            } else if (state is PokemonsLoadedState) {
-                                return bulidPokemonsList(state.results);
-                                      } else if (state is PokemonErrorState) {
-                                    return buildErrorUi(state.message);
-                           }
-                        },
-                     ),
-                ),
-              ),
-          ),
-        );
-      },
-    ),
-  );
-
-  Widget bulidLoading() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-}
+//import 'dart:async';
+//import 'dart:convert';
+//
+////import 'package:basic_utils/basic_utils.dart';
+//import 'package:flutter/material.dart';
+//import "package:http/http.dart" as http;
+//
+//import 'detail_pokemon.dart.dart';
+//
+//class MyHomePage extends StatefulWidget {
+//  @override
+//  _MyHomePageState createState() => _MyHomePageState();
+//}
+//
+//class _MyHomePageState extends State<MyHomePage> {
+//  TextEditingController editingController = TextEditingController();
+//  String url = 'https://pokeapi.co/api/v2/pokemon/?limit=10';
+//  List data;
+//
+//  Future<String> makeRequest() async {
+//    var response = await http.get(
+//        Uri.encodeFull(url), headers: {"Accept": "application/json"});
+//
+//    setState(() {
+//      var extractData = json.decode(response.body);
+//      data = extractData["results"];
+//    });
+//  }
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    makeRequest();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: AppBar(
+//        title: Text('Pokemon List'),
+//      ),
+//      body: Container(
+//        child: Column(
+//          children: <Widget>[
+//            Padding(
+//              padding: const EdgeInsets.all(15.0),
+//              child: TextField(
+//                onChanged: (value) {},
+//                decoration: InputDecoration(
+//                  labelText: "Search",
+//                  hintText: "Search",
+//                  contentPadding: const EdgeInsets.all(10.0),
+//                  prefixIcon: Icon(Icons.search),
+//                  border: OutlineInputBorder(
+//                      borderRadius: BorderRadius.all(Radius.circular(6.0))),
+//                ),
+//              ),
+//            ),
+//            Expanded(
+//              child: ListView.builder(
+//                  itemCount: data == null ? 0 : data.length,
+//                  itemBuilder: (BuildContext context, i) {
+//                    return ListTile(
+//                      title: Text(data[i]["name"].toString().toUpperCase()),
+//                      subtitle: Text(data[i]["url"]),
+//                      //  leading:  CircleAvatar(
+//                      // backgroundImage:
+//                      //  NetworkImage(data[i]["picture"]["thumbnail"]),
+//                      //  ),
+//                      onTap: () {
+//                        Navigator.push(
+//                            context, MaterialPageRoute(builder: (
+//                            BuildContext context) => SecondPage(data[i])));
+//                      },
+//                    );
+//                  }),
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+//}
+//

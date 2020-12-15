@@ -1,26 +1,20 @@
 import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:pokemon3_app/data/model/api_result_model.dart';
-import 'package:pokemon3_app/res/startings.dart';
 
-abstract class PokemonsRepository {
-  Future<List<Results>> getPokemons();
-}
+class AppService {
 
-class PokemonsRepositoryImpl implements PokemonsRepository {
-  get http => null;
+  final Client _app = Client();
+  List<Results> pokemons = [];
+  static String PokemonUrl = "https://pokeapi.co/api/v2/pokemon/?limit=10";
 
-
-
-  @override
   Future<List<Results>> getPokemons() async {
-    var response = await http.get(AppStrings.PokemonUrl);
+    final response = await _app.get(PokemonUrl);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      List<Results> results = Pokemons.fromJson(data).results;
-      return results;
-    } else {
-      throw Exception();
-    }
-  }
+      var data = Pokemons.fromJson(json.decode(response.body));
+      return json.decode(response.body);
 
-}
+    } else {
+      throw Exception("Error");
+    }
+  }}
