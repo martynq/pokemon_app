@@ -1,12 +1,17 @@
+
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon3_app/bloc/PokemonsBloc.dart';
 import 'package:pokemon3_app/data/repository/pokemon_repository.dart';
+
 import 'package:pokemon3_app/ui/second_page.dart';
 
+
 void main() async {
+
 
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,4 +46,5 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
 }

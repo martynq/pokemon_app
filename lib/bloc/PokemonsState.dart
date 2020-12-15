@@ -5,6 +5,7 @@ import 'package:pokemon3_app/data/model/api_result_model.dart';
 abstract class PokemonsState extends Equatable {
   const PokemonsState();
 
+
   @override
   // TODO: implement props
   List<Object> get props => [];
@@ -35,15 +36,16 @@ class PokemonsLoadedState extends PokemonsState {
   @override
   // TODO: implement props
   List<Object> get props => [results];
+
 }
+class PokemonsLoadedState extends PokemonsState {
 
-class PokemonErrorState extends PokemonsState {
+  final List <Results> pokemons;
+  final int amount;
 
-  String message;
+  PokemonsLoadedState({@required this.pokemons, @required this.amount});
 
-  PokemonErrorState({@required this.message});
 
   @override
-  // TODO: implement props
-  List<Object> get props => [message];
+  List<Object> get props => [this.pokemons, this.amount];
 }
