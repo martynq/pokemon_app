@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pokemon3_app/bloc/PokemonsEvent.dart';
 import 'package:pokemon3_app/bloc/PokemonsState.dart';
 import 'package:pokemon3_app/data/repository/pokemon_repository.dart';
-import 'package:pokemon3_app/data/repository/api_provider.dart.dart';
 
 
 

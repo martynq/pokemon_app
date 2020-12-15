@@ -1,21 +1,21 @@
+
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon3_app/bloc/PokemonsBloc.dart';
-import 'package:pokemon3_app/ui/home_page.dart';
-import 'package:pokemon3_app/data/repository/api_helper.dart';
+import 'package:pokemon3_app/data/repository/pokemon_repository.dart';
+import 'package:pokemon3_app/ui/app_ap.dart';
 
 
-void main() => runApp(MyApp());
+void main() {
+  PokemonRepository pokemonRepository = PokemonRepository();
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pokemons',
-      home: BlocProvider(
-        builder: (context) => PokemonsBloc(repository: PokemonsRepositoryImpl()),
-        child: HomePage(),
-      ),
-    );
-  }
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<PokemonsBloc>(
+        create: (BuildContext context) => PokemonsBloc(pokemonRepository: pokemonRepository),
+      )
+    ],
+    child: MyApp(),
+  ));
 }

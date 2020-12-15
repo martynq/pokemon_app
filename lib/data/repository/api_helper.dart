@@ -6,7 +6,7 @@ import 'package:pokemon3_app/res/startings.dart';
 
 
 class AppHelper  {
- final String _helpUrl = 'https://pokeapi.co/api/v2/';
+ final String helpUrl = 'https://pokeapi.co/api/v2/';
 
 
 
@@ -14,7 +14,7 @@ class AppHelper  {
   Future<dynamic> get(String url) async {
     var responseJson;
     try {
-      final response = await http.get(_helpUrl + url);
+      final response = await http.get(helpUrl + url);
       responseJson = json.decode(response.body.toString());
     } on Exception {
       print('Connection error');

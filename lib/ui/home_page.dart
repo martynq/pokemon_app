@@ -1,87 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:pokemon3_app/bloc/PokemonsBloc.dart';
 import 'package:pokemon3_app/bloc/PokemonsEvent.dart';
 import 'package:pokemon3_app/bloc/PokemonsState.dart';
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState(); {
-  }
-
-}
+import 'package:pokemon3_app/data/model/api_result_model.dart';
 
 
-class _HomePageState extends State<HomePage>{
-  PokemonsBloc pokemonsBloc;
+class HomePage extends StatelessWidget {
+  PokemonsBloc pokeBloc;
+  bool scrollSwitch = true;
+
+
 
   @override
-  void initState() {
-    super.initState();
-    pokemonsBloc = BlocProvider.of<PokemonsBloc>(context);
-    pokemonsBloc.add(FetchPokemonsEvent());
+  Widget build(BuildContext context) {
+    pokeBloc = BlocProvider.of<PokemonsBloc>(context);
+
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Poke App'),
+      ),
+      body: _body(context),
+    );
   }
-
-
-@override
-Widget build(BuildContext context) {
-  return MaterialApp(
-    home: Builder(
-      builder: (context) {
-        return Material(
-          child: Scaffold(
-         appBar: AppBar(
-                title: Text("Pokemons"),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.refresh),
-                    onPressed: () {
-                      pokemonsBloc.add(FetchPokemonsEvent());
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.info),
-                    onPressed: () {
-                     navigateToAoutPage(context);
-                    },
-                  )
-                ],
-              ),
-              body: Container(
-                child: BlocListener<PokemonsBloc, PokemonsState>(
-                  listener: (context, state) {
-                    if (state is PokemonErrorState) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.message),
-                        ),
-                      );
-                    }
-                  },
-                     child: BlocBuilder<PokemonsBloc, PokemonsState>(
-                        builder: (context, state) {
-                           if (state is PokemonsInitialState) {
-                              return buildLoading();
-                              } else if (state is PokemonsLoadingState) {
-                                return buildLoading();
-                            } else if (state is PokemonsLoadedState) {
-                                return bulidPokemonsList(state.results);
-                                      } else if (state is PokemonErrorState) {
-                                    return buildErrorUi(state.message);
-                           }
-                        },
-                     ),
-                ),
-              ),
-          ),
-        );
+  Widget _body(BuildContext context) {
+    return BlocBuilder<PokemonsBloc, PokemonsState>(
+      bloc: pokeBloc,
+      builder: (context, state) {
+        if (state is PokemonsInitialState) {
+          pokeBloc.add(PokemonsAdd());
+          return Center(child: CircularProgressIndicator());
+        }
+        if (state is PokemonsLoadedState) {
+          scrollSwitch = true;
+          return _list(state);
+        }
+        return Container();
       },
-    ),
-  );
+    );
+  }
+  Widget _list(PokemonsLoadedState state) {
+    final scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 200 &&
+          scrollSwitch == true) {
+        scrollSwitch = false;
+        pokeBloc.add(PokemonsAdd());
+      }
+    });
+    return ListView.builder(
+      itemCount: state.pokemons.length,
+      itemBuilder: (BuildContext context, int index) {
+        return _listTile( , state.pokemons.length);
+      },
+    );
+  }
+  Widget _listTile(List<Type> pokemons, int index) {
+    return ListTile(
+      leading: Icon(Icons.arrow_right),
+      title: Text(pokemons[index]),
+      trailing: Image(
+        //  Map post;
+        //    final response = await http.get(url);
+      //var url = widget.data["url"];
 
-  Widget bulidLoading() {
-    return Center(
-      child: CircularProgressIndicator(),
+        // post = json.decode(response.body.toString());
+        //  Image.network(post['sprites']['front_default'])
+
+          image: NetworkImage(pokemons[index].url['sprites']['front_default']),
+      ),
     );
   }
 }
