@@ -56,12 +56,36 @@ class PokemonBase {
 
 
 class Pokemon{
-  final String imageUrl;
+  String name;
+  String imageUrl;
+  String weight;
+  String size;
+  String height;
+
   /*
   name, size .....
    */
 
-  Pokemon(this.imageUrl);
+  Pokemon({this.name, this.imageUrl, this.weight, this.size, this.height});
 
+  Pokemon.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    imageUrl = json['sprites']['front_default'];
+    weight = json['weight'];
+    size = json['size'];
+    height = json['height'];
+
+
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['sprites']['front_default'] = this.imageUrl;
+    data['weight'] = this.weight;
+    data['size'] = this.size;
+    data['height'] = this.height;
+
+    return data;
+  }
 
 }
