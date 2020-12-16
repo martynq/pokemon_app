@@ -56,13 +56,13 @@ class PokemonListPageState extends State<PokemonListPage> {
 
   Widget _listTile(Pokemon pokemon) {
     return ListTile(
-      onTap: (){
+    //  onTap: (){
         //TODO
         //open pokemonDetials screen Navigator.of(context).push(PokemonDetailsScreen(pokemon))
-      },
+      //},
       leading: Icon(Icons.arrow_right),
       title: Text(pokemon.name),
-      trailing: Image.network('https://i.pinimg.com/originals/cb/33/49/cb3349b86ca661ca61ae9a36d88d70d4.png'),
+      trailing: Image.network(pokemon.imageUrl),
     );
   }
 }

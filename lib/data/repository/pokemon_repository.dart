@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:pokemon3_app/data/model/api_result_model.dart';
@@ -12,7 +11,6 @@ class AppService {
   Future<List<Pokemon>> getPokemons() async {
     final response = await _app.get(pokemonUrl);
     if (response.statusCode == 200) {
-
       var pokemons = [];
       var data = PokemonListResult.fromJson(json.decode(response.body)).basePokemons;
 
@@ -23,14 +21,17 @@ class AppService {
       });
 
       return pokemons;
-
     } else {
       throw Exception("Error");
     }
-  }}
-
-  Future<Pokemon> getSinglePokemon(String url){
-
-  //TODO
-  return Pokemon(imageUrl);
   }
+
+  Future<Pokemon> getSinglePokemon(String url) async{
+    final response = await _app.get(PokemonBase(url: url));
+    if (response.statusCode == 200) {
+      var data1 = Pokemon.fromJson(json.decode(response.body));
+
+      return Pokemon(imageUrl: data1.imageUrl);
+    }
+  }
+}

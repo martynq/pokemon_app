@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pokemon3_app/data/model/api_result_model.dart';
 
 abstract class PokemonsState extends Equatable {
@@ -16,15 +17,28 @@ class PokemonsLoadingState extends PokemonsState {
 class PokemonsLoadedState extends PokemonsState {
   final List<Pokemon> results;
   final int amount;
+  final String name;
+  final String imageUrl;
+  final String weight;
+  final String size;
+  final String height;
 
-  PokemonsLoadedState({this.results, this.amount});
+
+  PokemonsLoadedState({this.results, this.amount, this.imageUrl, this.name, this.weight, this.size, this.height});
 
   PokemonsLoadedState copyWith({
     List<Pokemon> results,
     int amount,
   }) {
     return PokemonsLoadedState(
-        results: results ?? this.results, amount: amount ?? this.amount);
+        results: results ?? this.results,
+        amount: amount ?? this.amount,
+        name: name ?? name,
+        imageUrl: imageUrl ?? imageUrl,
+        weight: weight ?? weight,
+        size: size ?? size,
+        height: height ?? height);
+
   }
 
   @override
