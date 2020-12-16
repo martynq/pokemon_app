@@ -1,19 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:equatable/equatable.dart';
 
 
 abstract class PokemonsEvent extends Equatable{}
 
 @override
-// TODO: implement props
 List<Object> get props => null;
 
-class PokemonsAdd extends PokemonsEvent {
+class LoadPokemons extends PokemonsEvent {
   @override
-  // TODO: implement props
 
-  List<Object> get props => null;
+  List<Object> get props => [];
 }
 class LoadPokemonDetail extends PokemonsEvent {
   final String url;

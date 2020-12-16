@@ -6,16 +6,31 @@ import 'package:pokemon3_app/data/model/api_result_model.dart';
 class AppService {
 
   final Client _app = Client();
-  List<Results> pokemons = [];
-  static String PokemonUrl = "https://pokeapi.co/api/v2/pokemon/?limit=10";
+  List<PokemonBase> pokemons = [];
+  static String pokemonUrl = "https://pokeapi.co/api/v2/pokemon/?limit=10";
 
-  Future<List<Results>> getPokemons() async {
-    final response = await _app.get(PokemonUrl);
+  Future<List<Pokemon>> getPokemons() async {
+    final response = await _app.get(pokemonUrl);
     if (response.statusCode == 200) {
-      var data = Pokemons.fromJson(json.decode(response.body));
-      return json.decode(response.body);
+
+      var pokemons = [];
+      var data = PokemonListResult.fromJson(json.decode(response.body)).basePokemons;
+
+      data.forEach((element) async {
+        var pokemon = await getSinglePokemon(element.url);
+
+        pokemons.add(pokemon);
+      });
+
+      return pokemons;
 
     } else {
       throw Exception("Error");
     }
   }}
+
+  Future<Pokemon> getSinglePokemon(String url){
+
+  //TODO
+  return Pokemon(imageUrl);
+  }

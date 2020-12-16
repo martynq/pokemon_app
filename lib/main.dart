@@ -1,19 +1,11 @@
-
-
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon3_app/bloc/PokemonsBloc.dart';
-import 'package:pokemon3_app/data/repository/pokemon_repository.dart';
+import 'package:pokemon3_app/bloc/pokemons_bloc.dart';
 
-import 'package:pokemon3_app/ui/second_page.dart';
-
+import 'package:pokemon3_app/ui/pokemon_list_page.dart';
 
 void main() async {
-
-
-
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
@@ -39,12 +31,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Pokemons App',
       home: BlocProvider(
-        create: (context) {
-          return PokemonsBloc(appService: AppService());
-        },
-        child: ListPokemonPage(),
+        create: (context) => PokemonsBloc(),
+        child: PokemonListPage(),
       ),
     );
   }
-
 }
