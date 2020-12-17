@@ -17,8 +17,14 @@ class PokemonListPageState extends State<PokemonListPage> {
   bool scrollSwitch = true;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     pokeBloc = BlocProvider.of<PokemonsBloc>(context);
+    pokeBloc.add(LoadPokemons());
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +39,6 @@ class PokemonListPageState extends State<PokemonListPage> {
       cubit: pokeBloc,
       builder: (context, state) {
         if (state is PokemonsLoadingState) {
-          pokeBloc.add(LoadPokemons());
           return Center(child: CircularProgressIndicator());
         }
         if (state is PokemonsLoadedState) {

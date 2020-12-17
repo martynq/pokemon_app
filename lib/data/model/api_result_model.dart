@@ -11,16 +11,20 @@ class PokemonListResult {
     this.basePokemons,
   });
 
-  PokemonListResult.fromJson(Map<String, dynamic> json) {
-    count = json['count'];
-    next = json['next'];
-    previous = json['previous'];
+  factory PokemonListResult.fromJson(Map<String, dynamic> json) {
+    var count = json['count'];
+    var next = json['next'];
+    var previous = json['previous'];
+    var basePokemons = List<PokemonBase>();
     if (json['results'] != null) {
-      basePokemons = new List<PokemonBase>();
       json['results'].forEach((v) {
-        basePokemons.add(PokemonBase.fromJson(v));
+        basePokemons.add(
+          PokemonBase.fromJson(v),
+        );
       });
     }
+
+    return PokemonListResult(count: count, basePokemons: basePokemons);
   }
 
   Map<String, dynamic> toJson() {
@@ -54,38 +58,38 @@ class PokemonBase {
   }
 }
 
-
-class Pokemon{
+class Pokemon {
   String name;
   String imageUrl;
-  String weight;
-  String size;
-  String height;
+  int weight;
+  int size;
+  int height;
 
-  /*
-  name, size .....
-   */
+  Pokemon({
+    this.name,
+    this.imageUrl,
+    this.weight,
+    this.size,
+    this.height,
+  });
 
-  Pokemon({this.name, this.imageUrl, this.weight, this.size, this.height});
-
-  Pokemon.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    imageUrl = json['sprites']['front_default'];
-    weight = json['weight'];
-    size = json['size'];
-    height = json['height'];
-
-
+  factory Pokemon.fromJson(Map<String, dynamic> json) {
+    return Pokemon(
+      name: json['name'],
+      imageUrl: json['sprites']['front_default'],
+      weight: json['weight'] as num,
+      size: json['size'],
+      height: json['height'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['sprites']['front_default'] = this.imageUrl;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['imageUrl'] = this.imageUrl;
     data['weight'] = this.weight;
     data['size'] = this.size;
     data['height'] = this.height;
 
     return data;
   }
-
 }
