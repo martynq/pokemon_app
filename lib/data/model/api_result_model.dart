@@ -64,8 +64,6 @@ class Pokemon {
   int weight;
   int size;
   int height;
-  int order;
-
 
 
   Pokemon({
@@ -74,7 +72,6 @@ class Pokemon {
     this.weight,
     this.size,
     this.height,
-    this.order,
 
   });
 
@@ -86,7 +83,6 @@ class Pokemon {
       weight: json['weight'] as num,
       size: json['size'],
       height: json['height'],
-        order: json['order'],
 
     );
   }
@@ -97,7 +93,6 @@ class Pokemon {
     data['weight'] = this.weight;
     data['size'] = this.size;
     data['height'] = this.height;
-    data['order'] = this.order;
 
     return data;
   }

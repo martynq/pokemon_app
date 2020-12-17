@@ -29,12 +29,17 @@ class PokemonDetailsScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => PokemonListPage()));
+            //tutaj chcialabym wracac do pierwszej strony, czy to musze jakos umiescic w bloc?
           },
         ),
       ),
       body: GridView.count(
         crossAxisCount: 2,
         children: [
+          Image.network(
+            '${pokemon.imageUrl}',
+            scale: 0.5,
+          ),
           Container(
             alignment: Alignment.center,
             child: Text(
@@ -72,10 +77,7 @@ class PokemonDetailsScreen extends StatelessWidget {
             padding: EdgeInsets.all(5),
           ),
 
-          Image.network(
-            '${pokemon.imageUrl}',
-            scale: 0.5,
-          ),
+
         ],
       ),
     );

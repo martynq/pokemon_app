@@ -78,7 +78,7 @@ class PokemonListPageState extends State<PokemonListPage> {
         );
       },
       leading: Icon(Icons.arrow_right),
-      title: Text(pokemon?.name ?? ""),
+      title: Text((pokemon?.name ?? "").toUpperCase()),
       trailing: Image.network(pokemon.imageUrl),
     );
   }
