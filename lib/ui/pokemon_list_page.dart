@@ -24,13 +24,21 @@ class PokemonListPageState extends State<PokemonListPage> {
     pokeBloc.add(LoadPokemons());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Poke App'),
+        backgroundColor: Colors.amber,
+        centerTitle: true,
+        title: Text(
+          'Pokemon List',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: _body(context),
     );
@@ -63,10 +71,11 @@ class PokemonListPageState extends State<PokemonListPage> {
 
   Widget _listTile(Pokemon pokemon) {
     return ListTile(
-        onTap: (){
-          Navigator.of(context).push(
-              MaterialPageRoute(
-              builder: (context) => PokemonDetailsScreen(pokemon: pokemon)),);
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => PokemonDetailsScreen(pokemon: pokemon)),
+        );
       },
       leading: Icon(Icons.arrow_right),
       title: Text(pokemon?.name ?? ""),
