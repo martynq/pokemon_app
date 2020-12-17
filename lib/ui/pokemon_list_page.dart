@@ -6,6 +6,8 @@ import 'package:pokemon3_app/bloc/pokemons_event.dart';
 import 'package:pokemon3_app/bloc/pokemons_state.dart';
 import 'package:pokemon3_app/data/model/api_result_model.dart';
 
+import 'detail_pokemon.dart';
+
 class PokemonListPage extends StatefulWidget {
   @override
   PokemonListPageState createState() => PokemonListPageState();
@@ -61,10 +63,11 @@ class PokemonListPageState extends State<PokemonListPage> {
 
   Widget _listTile(Pokemon pokemon) {
     return ListTile(
-    //  onTap: (){
-        //TODO
-        //open pokemonDetials screen Navigator.of(context).push(PokemonDetailsScreen(pokemon))
-      //},
+        onTap: (){
+          Navigator.of(context).push(
+              MaterialPageRoute(
+              builder: (context) => PokemonDetailsScreen(pokemon: pokemon)),);
+      },
       leading: Icon(Icons.arrow_right),
       title: Text(pokemon?.name ?? ""),
       trailing: Image.network(pokemon.imageUrl),
