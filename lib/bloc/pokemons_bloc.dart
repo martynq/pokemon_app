@@ -16,7 +16,17 @@ class PokemonsBloc extends Bloc<PokemonsEvent, PokemonsState> {
   ) async* {
     if (event is LoadPokemons) {
       try {
-        List<Pokemon> results = await appService.getPokemons();
+        List<PokemonBase> data = await appService.getPokemons();
+
+        final toFetch = List.of(data);
+        List<Pokemon> results = [];
+        print('bazinga data.first.url: ${data.first.url}');
+
+        for (var i = 0; i < toFetch.length; i++) {
+          Pokemon pokemon = await appService.getSinglePokemon(toFetch[i].url);
+          results.add(pokemon);
+        }
+
         yield PokemonsLoadedState(results: results);
       } catch (e) {
         yield PokemonErrorState(message: e.toString());

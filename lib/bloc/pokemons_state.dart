@@ -23,8 +23,15 @@ class PokemonsLoadedState extends PokemonsState {
   final String size;
   final String height;
 
-
-  PokemonsLoadedState({this.results, this.amount, this.imageUrl, this.name, this.weight, this.size, this.height});
+  PokemonsLoadedState({
+    this.results,
+    this.amount,
+    this.imageUrl,
+    this.name,
+    this.weight,
+    this.size,
+    this.height,
+  });
 
   PokemonsLoadedState copyWith({
     List<Pokemon> results,
@@ -38,7 +45,6 @@ class PokemonsLoadedState extends PokemonsState {
         weight: weight ?? weight,
         size: size ?? size,
         height: height ?? height);
-
   }
 
   @override
@@ -46,11 +52,8 @@ class PokemonsLoadedState extends PokemonsState {
   List<Object> get props => [results];
 }
 
-
-class PokemonErrorState extends PokemonsState{
-
+class PokemonErrorState extends PokemonsState {
   final String message;
 
   PokemonErrorState({this.message});
-
 }

@@ -66,7 +66,7 @@ class PokemonListPageState extends State<PokemonListPage> {
         //open pokemonDetials screen Navigator.of(context).push(PokemonDetailsScreen(pokemon))
       //},
       leading: Icon(Icons.arrow_right),
-      title: Text(pokemon.name),
+      title: Text(pokemon?.name ?? ""),
       trailing: Image.network(pokemon.imageUrl),
     );
   }

@@ -74,8 +74,9 @@ class Pokemon {
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
+    print("bazinga json['name']: ${json['name']}");
     return Pokemon(
-      name: json['name'],
+      name: json['name'] as String,
       imageUrl: json['sprites']['front_default'],
       weight: json['weight'] as num,
       size: json['size'],

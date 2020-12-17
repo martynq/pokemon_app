@@ -7,40 +7,28 @@ class AppService {
   List<PokemonBase> pokemons = [];
   static String pokemonUrl = "https://pokeapi.co/api/v2/pokemon/?limit=10";
 
-  Future<List<Pokemon>> getPokemons() async {
+  Future<List<PokemonBase>> getPokemons() async {
     final response = await _app.get(pokemonUrl);
     if (response.statusCode == 200) {
-      List<Pokemon> pokemons = [];
-      var data = PokemonListResult.fromJson(
+      List<PokemonBase> data = PokemonListResult.fromJson(
         json.decode(response.body),
       ).basePokemons;
 
-      data.forEach((element) async {
-        var pokemon = await getSinglePokemon(element.url);
-
-        pokemons.add(pokemon);
-      });
-
-      return Future.value(pokemons);
+      return Future.value(data);
     } else {
       throw Exception("Error");
     }
   }
 
   Future<Pokemon> getSinglePokemon(String url) async {
-    try {
-      final response = await _app.get(url);
+    final response = await _app.get(url);
 
-    print('bazinga response: $response');
     if (response.statusCode == 200) {
       var data1 = Pokemon.fromJson(json.decode(response.body));
 
-      return Future.value(Pokemon(imageUrl: data1.imageUrl));
+      return Future.value(data1);
     } else {
       throw Exception("Error");
-    }
-    }catch(e){
-      print('bazinga error: ${e.toString()}');
     }
   }
 }
