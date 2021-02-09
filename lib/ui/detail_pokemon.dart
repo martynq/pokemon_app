@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:pokemon3_app/data/model/api_result_model.dart';
 import 'package:pokemon3_app/ui/pokemon_list_page.dart';
+import 'package:pokemon3_app/widget/pokemon_feature.dart';
 
 class PokemonDetailsScreen extends StatelessWidget {
   final Pokemon pokemon;
@@ -27,57 +28,28 @@ class PokemonDetailsScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_outlined),
           onPressed: () {
-            Navigator.push(context,
+            Navigator.pop(context,
                 MaterialPageRoute(builder: (context) => PokemonListPage()));
-            //tutaj chcialabym wracac do pierwszej strony, czy to musze jakos umiescic w bloc?
           },
         ),
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
+      body: Column(
         children: [
-          Image.network(
-            '${pokemon.imageUrl}',
-            scale: 0.5,
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Text(
-              "Pokemon name : " + "${pokemon.name}".toUpperCase(),
-              style: TextStyle(fontWeight: FontWeight.w700),
+          Center(
+            child: Image.network(
+              '${pokemon.imageUrl}',
+              scale: 0.5,
             ),
-            height: 80,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.orangeAccent,
-            ),
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(5),
           ),
-          Container(
-            height: 80,
-            child: Text("Pokemon height: ${pokemon.height}"),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.orangeAccent,
-            ),
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(5),
+          SizedBox.shrink(),
+          Wrap(
+            children: [
+              PokemonFeature(pokemonFeature: "Pokemon height: " + "${pokemon.height * 10} cm"),
+              PokemonFeature(pokemonFeature: "Pokemon weight: ${(pokemon.weight * 0.1).round()} kg"),
+              PokemonFeature(pokemonFeature: "Pokemon Id: ${pokemon.id}"),
+              PokemonFeature(pokemonFeature: "Pokemon order: ${pokemon.order}"),
+            ],
           ),
-          Container(
-            child: Text("Pokemon weight: ${pokemon.weight}"),
-            height: 80,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.orangeAccent,
-            ),
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(5),
-          ),
-
-
         ],
       ),
     );

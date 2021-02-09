@@ -1,20 +1,14 @@
 class PokemonListResult {
   int count;
-  String next;
-  Null previous;
   List<PokemonBase> basePokemons;
 
   PokemonListResult({
     this.count,
-    this.next,
-    this.previous,
     this.basePokemons,
   });
 
   factory PokemonListResult.fromJson(Map<String, dynamic> json) {
     var count = json['count'];
-    var next = json['next'];
-    var previous = json['previous'];
     var basePokemons = List<PokemonBase>();
     if (json['results'] != null) {
       json['results'].forEach((v) {
@@ -30,8 +24,6 @@ class PokemonListResult {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['count'] = this.count;
-    data['next'] = this.next;
-    data['previous'] = this.previous;
     if (this.basePokemons != null) {
       data['results'] = this.basePokemons.map((v) => v.toJson()).toList();
     }
@@ -64,7 +56,8 @@ class Pokemon {
   int weight;
   int size;
   int height;
-
+  int id;
+  int order;
 
   Pokemon({
     this.name,
@@ -72,18 +65,19 @@ class Pokemon {
     this.weight,
     this.size,
     this.height,
-
+    this.id,
+    this.order,
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
-    print("bazinga json['name']: ${json['name']}");
     return Pokemon(
       name: json['name'] as String,
       imageUrl: json['sprites']['front_default'],
       weight: json['weight'] as num,
       size: json['size'],
       height: json['height'],
-
+      id: json['id'],
+      order: json['order'],
     );
   }
 
@@ -93,7 +87,8 @@ class Pokemon {
     data['weight'] = this.weight;
     data['size'] = this.size;
     data['height'] = this.height;
-
+    data['id'] = this.id;
+    data['order'] = this.order;
     return data;
   }
 }
